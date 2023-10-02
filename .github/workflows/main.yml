@@ -35,7 +35,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: application
-        path: ./app/build
+        path: ./app/out
   deploy:
     name: "Deploy"
     needs: build
