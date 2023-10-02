@@ -30,10 +30,10 @@ jobs:
       shell: bash
       run: |
         npm run build
-    # - name: "Copy CNAME to build folder for custom domain"
-    #   shell: bash
-    #   run: |
-    #     cp ./CNAME ./build/CNAME
+    - name: "Copy CNAME to build folder for custom domain"
+      shell: bash
+      run: |
+        cp ./CNAME ./build/CNAME
     - name: "Upload build artifact"
       uses: actions/upload-artifact@v3
       with:
