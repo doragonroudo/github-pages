@@ -51,7 +51,8 @@ jobs:
     - name: "Run test server"
       shell: bash
       run: |
-        npx http-server -o ./
+        npm ci http-server -g
+        http-server -o ./
   deploy:
     name: "Deploy"
     needs: test
