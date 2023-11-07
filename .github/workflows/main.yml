@@ -51,7 +51,7 @@ jobs:
     - name: "Run test server"
       shell: bash
       run: |
-        npm ci http-server -g
+        npm install http-server -g
         http-server -o ./
   deploy:
     name: "Deploy"
