@@ -48,6 +48,13 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: application
+    - name: get runner ip addresses
+      id: ip
+      uses: haythem/public-ip@v1.2
+    - name: "Print ip"
+      shell: bash
+      run: |
+        echo "${{ steps.ip.outputs.ipv4 }}"
     - name: "Run test server"
       shell: bash
       run: |
