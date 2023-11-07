@@ -18,65 +18,65 @@ jobs:
         sudo netstat -pln
         sudo ufw allow 8080
         sudo netstat -pln
-  #   - name: "Checkout self"
-  #     uses: actions/checkout@v4
-  #   - name: "Setup Node"
-  #     uses: actions/setup-node@v3
-  #     with:
-  #       node-version: 18
-  #   - name: "Install dependencies"
-  #     working-directory: ./app
-  #     shell: bash
-  #     run: |
-  #       npm ci
-  #   - name: "Build website"
-  #     working-directory: ./app
-  #     shell: bash
-  #     run: |
-  #       npm run build
-  #   - name: "Copy CNAME to build folder for custom domain"
-  #     shell: bash
-  #     run: |
-  #       cp ./CNAME ./app/out/CNAME
-  #   - name: "Upload build artifact"
-  #     uses: actions/upload-artifact@v3
-  #     with:
-  #       name: application
-  #       path: ./app/out
-  # test:
-  #   name: "Test"
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: "Download build artifact"
-  #     uses: actions/download-artifact@v3
-  #     with:
-  #       name: application
-  #   - name: get runner ip addresses
-  #     id: ip
-  #     uses: haythem/public-ip@v1.2
-  #   - name: "Print ip"
-  #     shell: bash
-  #     run: |
-  #       echo "${{ steps.ip.outputs.ipv4 }}"
-  #   - name: "Run test server"
-  #     shell: bash
-  #     run: |
-  #       npm install http-server -g
-  #       http-server -o ./
-  # deploy:
-  #   name: "Deploy"
-  #   needs: test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: "Download build artifact"
-  #     uses: actions/download-artifact@v3
-  #     with:
-  #       name: application
-  #   - name: "Deploy to GitHub Pages"
-  #     uses: peaceiris/actions-gh-pages@v3
-  #     with:
-  #       github_token: ${{ secrets.GITHUB_TOKEN }}
-  #       publish_dir: ./
-  #       user_name: github-actions[bot]
-  #       user_email: 41898282+github-actions[bot]@users.noreply.github.com
+    - name: "Checkout self"
+      uses: actions/checkout@v4
+    - name: "Setup Node"
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    - name: "Install dependencies"
+      working-directory: ./app
+      shell: bash
+      run: |
+        npm ci
+    - name: "Build website"
+      working-directory: ./app
+      shell: bash
+      run: |
+        npm run build
+    - name: "Copy CNAME to build folder for custom domain"
+      shell: bash
+      run: |
+        cp ./CNAME ./app/out/CNAME
+    - name: "Upload build artifact"
+      uses: actions/upload-artifact@v3
+      with:
+        name: application
+        path: ./app/out
+  test:
+    name: "Test"
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Download build artifact"
+      uses: actions/download-artifact@v3
+      with:
+        name: application
+    - name: get runner ip addresses
+      id: ip
+      uses: haythem/public-ip@v1.2
+    - name: "Print ip"
+      shell: bash
+      run: |
+        echo "${{ steps.ip.outputs.ipv4 }}"
+    - name: "Run test server"
+      shell: bash
+      run: |
+        npm install http-server -g
+        http-server -p 8084 -o ./
+  deploy:
+    name: "Deploy"
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Download build artifact"
+      uses: actions/download-artifact@v3
+      with:
+        name: application
+    - name: "Deploy to GitHub Pages"
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./
+        user_name: github-actions[bot]
+        user_email: 41898282+github-actions[bot]@users.noreply.github.com
